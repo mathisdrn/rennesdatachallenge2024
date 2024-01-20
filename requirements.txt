@@ -2,18 +2,12 @@ ipykernel
 ipywidgets
 
 seaborn
-# plotly
-# autoviz
-# pycaret
-# bokeh
+plotly
 
 scikit-learn
 MacroRandomForest
-tensorflow
-torch
 
 streamlit
 streamlit-extras
 
-TA-Lib
 openpyxl
