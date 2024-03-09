@@ -1,13 +1,12 @@
 ipykernel
 ipywidgets
+numpy
+pandas
+matplotlib
 
-seaborn
-plotly
-
+prophet
 scikit-learn
-MacroRandomForest
+xgboost
+pmdarima
 
-streamlit
-streamlit-extras
-
-openpyxl
+tensorflow

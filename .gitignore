@@ -4,3 +4,4 @@ DataChallenge2023/
 *logs.log
 models/
 ressources/
+__pycache__/
