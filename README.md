@@ -14,6 +14,7 @@ The dataset is a time series at business days frequency between 08-2017 and 03-2
 - Linear regression
 - Facebook Prophet
 - RandomForests
+- SARIMAX
 - XGBoost
 - LSTM
 
@@ -44,10 +45,22 @@ We first divide the dataset into 3 sets :
 2. **Validation set** : used to tune the model's hyperparameters
 3. **Test set** : used to evaluate the model's performance
 
-Once validation set have been used to find the best hyperparameters, we can finally train a model training + validation set.
+Once validation set have been used to find the best hyperparameters, we can finally train a model on training + validation set.
 
 ### Backtesting strategy
 
-In order to achieve best performance, we can use a backtesting strategy to improve the model's performance. The idea is that through each new day we can retrain the model with the most recent data and predict the next day's value. This way we can take into account the most recent information and improve the model's performance.
+In order to achieve best performance for our prediction, we can use a backtesting strategy.
+
+The idea is that through each new day we can retrain the model with the most recent data and predict the next day's value. This way we can take into account the most recent information.
 
 ![Backtesting strategy](figures/single_step_refit.gif)
+
+## Usage 
+
+To use this repository, we recommend you create a virtual environment and install the dependencies from requirements.txt by using :
+    
+```bash
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
