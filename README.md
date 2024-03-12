@@ -1,33 +1,53 @@
 # RennesDataChallenge 2024
 
-Le Master Mathématiques Appliquées, Statistique (Universités de Rennes 1 et Rennes 2), le Master Monnaie, Banque, Finance Assurance (Université de Rennes 1), Gwenlake, TAC ECONOMICS et l'association Rennes Data Science, organisent un data challenge les 19 et 20 janvier 2024 à la Faculté des Sciences Economiques de Rennes.
+This repositery was created for the Rennes Data Challenge 2024. The goal was to predict the value of crypto-currencies on a day-to-day basis. 
 
-Deux sujets était proposé : 
-- ENEDIS : sur le thème de la maintenance préventive
-- FederalFinance : prédiction de la valeur des crypto-monnaies au jour le jour.
+Since then, this reposity have been frequently updated to implement new models and improve existing one.
 
-Ce repositery traite du deuxième sujet.
+## About data 
 
-Le deuxième était accompagné d'un jeu de données : une série temporelle à fréquence jours ouvrés entre le 08-2017 et 03-2023. Ce jeu données contient plus de 300 colonnes : variables économiques, réseaux sociaux (nombre de tweet parlant du BTC, sentiments des tweets).  
+The dataset is a time series at business days frequency between 08-2017 and 03-2023. This dataset contains 200 columns: economic variables, social networks (number of tweets about BTC, sentiment of tweets), etc...
 
-## Structure du projet
+## Models
 
-Les notebooks contenus dans ce repositery traitent le jeux de données et entraîne différents modèles sur celui-ci. 
+- Baseline : provide a naive forecasting method by using the previous value of the time series as the prediction of the next value
+- Linear regression
+- Facebook Prophet
+- RandomForests
+- XGBoost
+- LSTM
 
-```
-rennesdatachallenge2024
-├─ data                     // data files
-├─ images                   // prediction and datasets figures  
-├─ 00 - Setup.ipynb         // to setup installation of virtual-env and dependencies
-├─ 01 - Cleaning.ipynb      // preprocessing of dataset
-├─ 02 - EDA.ipynb           // exploratory data analysis
-├─ 03 - model.ipynb         // initial implementation of various models (Prophet from Facebook, initial implementation of SARIMAX) 
-├─ 04 - VARMAX.ipynb        // VARMAX model implementation
-├─ 05 - SARIMAX.ipynb       // SARIMAX model implementation
-├─ 06 - SDAE + LSTM.ipynb   // Stacked denoising auto encoder + LSTM implementation
-├─ 07 - Result.ipynb        // Analysing performance and KPI of various models
-```
+## Preprocessing pipeline 
 
-## À noter
+**Missing data** : 
+1. removing columns with more than *x*% of missing values
+2. imputing missing values with the *KNNImputer()*
 
-Ce repositery a été mis à jour à posteriori du challenge.
+**Scaling data** : *RobustScaler()* is used. It natively provide a way to deal with outliers by scaling features according to the IQR.
+
+**Features extraction** :
+1. **Lag features** : the previous *x* values of the time series
+2. **Rolling statistics** : the mean and the standard deviation of the time series over the last *x* days
+3. **Day of the week** : angular distance of encoded day of the week
+
+Note : Bitcoin price doesn't have a strong weekly or monthly seasonality (see EDA). However day of the week is taken into account here as data frequency is business days and although no weekly seasonality have been observed we could assume exogenous features may be affected by weekends gaps.
+
+
+**Dimensionality reduction** : Here two options are available and will be tested
+1. **PCA** : reduce dimensionality by mapping linear relation of features
+2. **Autoencoder** : gives the ability to interpolate non linear relation between features
+
+### Model evaluation and parameter tuning
+
+We first divide the dataset into 3 sets :
+1. **Training set** : used to train the model
+2. **Validation set** : used to tune the model's hyperparameters
+3. **Test set** : used to evaluate the model's performance
+
+Once validation set have been used to find the best hyperparameters, we can finally train a model training + validation set.
+
+### Backtesting strategy
+
+In order to achieve best performance, we can use a backtesting strategy to improve the model's performance. The idea is that through each new day we can retrain the model with the most recent data and predict the next day's value. This way we can take into account the most recent information and improve the model's performance.
+
+![Backtesting strategy](figures/single_step_refit.gif)
