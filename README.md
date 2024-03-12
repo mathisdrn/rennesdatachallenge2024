@@ -8,6 +8,14 @@ Since then, this reposity have been frequently updated to implement new models a
 
 The dataset is a time series at business days frequency between 08-2017 and 03-2023. This dataset contains 200 columns: economic variables, social networks (number of tweets about BTC, sentiment of tweets), etc...
 
+## Objective 
+
+The objective is to predict the value of Bitcoin on a day-to-day basis.
+Trainig cut-off date is 31/08/2022.
+The performance of a model is evaluated on prediction of Bitcoin value between 01/09/2022 to 01/03/2023.
+
+In results, we also take a look at Bitcoin returns by differentiating Bitcoin real and prediction values.
+
 ## Models
 
 - Baseline : provide a naive forecasting method by using the previous value of the time series as the prediction of the next value
@@ -19,6 +27,9 @@ The dataset is a time series at business days frequency between 08-2017 and 03-2
 - LSTM
 
 ## Preprocessing pipeline 
+
+Preprocessing pipeline is critical to ensure the model's performance. 
+The following introduce you to the preprocessing pipeline used in this repository.
 
 **Missing data** : 
 1. removing columns with more than *x*% of missing values
@@ -45,7 +56,7 @@ We first divide the dataset into 3 sets :
 2. **Validation set** : used to tune the model's hyperparameters
 3. **Test set** : used to evaluate the model's performance
 
-Once validation set have been used to find the best hyperparameters, we can finally train a model on training + validation set.
+Once validation set have been used to find the best hyperparameters, we train the final model on training + validation set.
 
 ### Backtesting strategy
 
